@@ -1,0 +1,75 @@
+import pygame
+import random
+from thingies import button
+
+pygame.init()
+win = pygame.display.set_mode((500, 500))
+win.fill((255, 255, 255))
+
+def playRD():
+    again = True
+    againagain = True
+    hmd = True
+    dice = None
+    rollthebones = True
+    dieval = 0
+
+    while again:
+        onedice = button((0, 0, 0), 25, 180, 200, 50, "One Dice")
+        twodice = button((0, 0, 0), 275, 180, 200, 50, "Two Dice")
+        fivedice = button((0, 0, 0), 125, 240, 250, 50, "Five Dice")
+        distxt1 = button((0, 0, 0), 5, 25, 490, 50, 'How many dice')
+        distxt2 = button((0, 0, 0), 5, 75, 490, 50, 'would you like to roll?')
+        backButton = button((0, 0, 0), 350, 400, 100, 50, 'END' )
+        die1 = button((0, 0, 0), 25, 180, 200, 50, str(dieval))
+        die2 = button((0, 0, 0), 275, 180, 200, 50, str(dieval))
+        die3 = button((0, 0, 0), 125, 240, 250, 50, str(dieval))
+        die4 = button((0, 0, 0), 25, 180, 200, 50, str(dieval))
+        die5 = button((0, 0, 0), 275, 180, 200, 50, str(dieval))
+
+        def redrawWindow():
+            win.fill((153, 204, 255))
+            onedice.draw(win, (0, 200, 0))
+            twodice.draw(win, (0, 200, 0))
+            fivedice.draw(win, (0, 200, 0))
+            distxt1.draw(win, (255, 255, 255))
+            distxt2.draw(win, (255, 255, 255))
+            backButton.draw(win, (200, 0, 0))
+
+        def drawone():
+            win.fill((153, 204, 255))
+            die1.draw(win, (0, 200, 0))
+
+
+
+        redrawWindow()
+        pygame.display.update()
+
+        while hmd:
+            for event in pygame.event.get():
+                pos = pygame.mouse.get_pos()
+
+                if event.type == pygame.QUIT:
+                    again = False
+                    pygame.quit()
+                    quit()
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if onedice.isOver(pos):
+                        dice = 1
+                        hmd = False
+                    elif twodice.isOver(pos):
+                        dice = 2
+                        hmd = False
+                    elif fivedice.isOver(pos):
+                        dice = 3
+                        hmd = False
+                    elif backButton.isOver(pos):
+                        again = False
+                        hmd = False
+        while rollthebones:
+            if dice == 1:
+                dieval = random.randint(1, 6)
+                drawone()
+                rollthebones = False
+        pygame.display.update()
