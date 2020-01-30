@@ -1,2 +1,2 @@
 # SimpleGamesPractice
-A collection of simple games in PyCharm
+A collection of simple games in PyGame
