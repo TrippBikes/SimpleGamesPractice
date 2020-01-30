@@ -1,0 +1,229 @@
+import pygame
+from thingies import button
+
+pygame.init()
+win = pygame.display.set_mode((500, 500))
+win.fill((255, 255, 255))
+
+def playTTT():
+    again = True
+    againagain = True
+    xinput = ''
+    sq1val = ''
+    sq2val = ''
+    sq3val = ''
+    sq4val = ''
+    sq5val = ''
+    sq6val = ''
+    sq7val = ''
+    sq8val = ''
+    sq9val = ''
+    xtotal = 0
+    ototal = 0
+    ttotal = 0
+    whoturn = 'X'
+    round = 'X'
+
+    while again:
+        againagain = True
+        if round == 'X':
+            getxinput = True
+            getoinput = False
+        else:
+            getxinput = False
+            getoinput = True
+        turn = button((0, 0, 0), 0, 0, 40, 40, whoturn)
+        xscore = button((0, 0, 0), 40, 50, 200, 40, f'X Score: {str(xtotal)}')
+        oscore = button((0, 0, 0), 260, 50, 200, 40, f'O Score: {str(ototal)}')
+        tscore = button((0, 0, 0), 140, 0, 200, 40, f'Ties: {str(ttotal)}')
+        backButton = button((0, 0, 0), 350, 450, 100, 50, 'END' )
+        board1 = button((0, 0, 0), 170, 100, 25, 350)
+        board2 = button((0, 0, 0), 305, 100, 25, 350)
+        board3 = button((0, 0, 0), 75, 200, 350, 25)
+        board4 = button((0, 0, 0), 75, 325, 350, 25)
+        sq1 = button((0, 0, 0), 75, 100, 91, 96, sq1val)
+        sq2 = button((0, 0, 0), 199, 100, 102, 96, sq2val)
+        sq3 = button((0, 0, 0), 334, 100, 91, 96, sq3val)
+        sq4 = button((0, 0, 0), 75, 229, 91, 92, sq4val)
+        sq5 = button((0, 0, 0), 199, 229, 102, 92, sq5val)
+        sq6 = button((0, 0, 0), 334, 229, 91, 92, sq6val)
+        sq7 = button((0, 0, 0), 75, 354, 91, 96, sq7val)
+        sq8 = button((0, 0, 0), 199, 354, 102, 96, sq8val)
+        sq9 = button((0, 0, 0), 334, 354, 91, 96, sq9val)
+
+
+        def redrawWindow():
+            win.fill((153, 204, 255))
+            turn.draw(win, (255, 255, 255))
+            xscore.draw(win, (255, 0, 0))
+            oscore.draw(win, (255, 0, 0))
+            tscore.draw(win, (255, 0, 0))
+            backButton.draw(win, (200, 0, 0))
+            board1.draw(win, (0, 0, 0))
+            board2.draw(win, (0, 0, 0))
+            board3.draw(win, (0, 0, 0))
+            board4.draw(win, (0, 0, 0))
+            sq1.draw(win, (153, 204, 255))
+            sq2.draw(win, (153, 204, 255))
+            sq3.draw(win, (155, 204, 255))
+            sq4.draw(win, (153, 204, 255))
+            sq5.draw(win, (153, 204, 255))
+            sq6.draw(win, (153, 204, 255))
+            sq7.draw(win, (153, 204, 255))
+            sq8.draw(win, (153, 204, 255))
+            sq9.draw(win, (153, 204, 255))
+
+        while againagain:
+            while getxinput:
+                round = 'O'
+                whoturn = 'O'
+                redrawWindow()
+                pygame.display.update()
+                for event in pygame.event.get():
+                    pos = pygame.mouse.get_pos()
+
+                    if event.type == pygame.QUIT:
+                        again = False
+                        pygame.quit()
+                        quit()
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if sq1.isOver(pos) and sq1val == '':
+                            sq1val = 'X'
+                            getxinput = False
+                        elif sq2.isOver(pos) and sq2val == '':
+                            sq2val = 'X'
+                            getxinput = False
+                        elif sq3.isOver(pos) and sq3val == '':
+                            sq3val = 'X'
+                            getxinput = False
+                        elif sq4.isOver(pos) and sq4val == '':
+                            sq4val = 'X'
+                            getxinput = False
+                        elif sq5.isOver(pos) and sq5val == '':
+                            sq5val = 'X'
+                            getxinput = False
+                        elif sq6.isOver(pos) and sq6val == '':
+                            sq6val = 'X'
+                            getxinput = False
+                        elif sq7.isOver(pos) and sq7val == '':
+                            sq7val = 'X'
+                            getxinput = False
+                        elif sq8.isOver(pos) and sq8val == '':
+                            sq8val = 'X'
+                            getxinput = False
+                        elif sq9.isOver(pos) and sq9val == '':
+                            sq9val = 'X'
+                            getxinput = False
+                        elif backButton.isOver(pos):
+                            again = False
+                            againagain = False
+                            getxinput = False
+            ### Check if X wins, if they did O goes first next round ###
+            if sq1val == 'X' and sq2val == 'X' and sq3val == 'X' \
+                    or sq1val == 'X' and sq4val == 'X' and sq7val == 'X'\
+                    or sq2val == 'X' and sq5val == 'X' and sq8val == 'X' \
+                    or sq3val == 'X' and sq6val == 'X' and sq9val == 'X'\
+                    or sq1val == 'X' and sq5val == 'X' and sq9val == 'X'\
+                    or sq7val == 'X' and sq5val == 'X' and sq3val == 'X'\
+                    or sq4val == 'X' and sq5val == 'X' and sq6val == 'X'\
+                    or sq7val == 'X' and sq8val == 'X' and sq9val == 'X':
+                xtotal += 1
+                sq1val = ''
+                sq2val = ''
+                sq3val = ''
+                sq4val = ''
+                sq5val = ''
+                sq6val = ''
+                sq7val = ''
+                sq8val = ''
+                sq9val = ''
+            ### check if there is a Tie ###
+            elif sq1val != '' and sq2val != '' and sq3val != '' and sq4val != '' and sq5val != '' and sq6val != '' and sq7val != '' and sq8val != '' and sq9val != '':
+                ttotal += 1
+                sq1val = ''
+                sq2val = ''
+                sq3val = ''
+                sq4val = ''
+                sq5val = ''
+                sq6val = ''
+                sq7val = ''
+                sq8val = ''
+                sq9val = ''
+            againagain = False
+            while getoinput:
+                round = 'X'
+                whoturn = 'X'
+                redrawWindow()
+                pygame.display.update()
+                for event in pygame.event.get():
+                    pos = pygame.mouse.get_pos()
+
+                    if event.type == pygame.QUIT:
+                        again = False
+                        pygame.quit()
+                        quit()
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if sq1.isOver(pos) and sq1val == '':
+                            sq1val = 'O'
+                            getoinput = False
+                        elif sq2.isOver(pos) and sq2val == '':
+                            sq2val = 'O'
+                            getoinput = False
+                        elif sq3.isOver(pos) and sq3val == '':
+                            sq3val = 'O'
+                            getoinput = False
+                        elif sq4.isOver(pos) and sq4val == '':
+                            sq4val = 'O'
+                            getoinput = False
+                        elif sq5.isOver(pos) and sq5val == '':
+                            sq5val = 'O'
+                            getoinput = False
+                        elif sq6.isOver(pos) and sq6val == '':
+                            sq6val = 'O'
+                            getoinput = False
+                        elif sq7.isOver(pos) and sq7val == '':
+                            sq7val = 'O'
+                            getoinput = False
+                        elif sq8.isOver(pos) and sq8val == '':
+                            sq8val = 'O'
+                            getoinput = False
+                        elif sq9.isOver(pos) and sq9val == '':
+                            sq9val = 'O'
+                            getoinput = False
+                        elif backButton.isOver(pos):
+                            again = False
+                            againagain = False
+                            getoinput = False
+            ### Check if O wins, if they did X goes 1st next round ###
+            if sq1val == 'O' and sq2val == 'O' and sq3val == 'O' \
+                    or sq1val == 'O' and sq4val == 'O' and sq7val == 'O'\
+                    or sq2val == 'O' and sq5val == 'O' and sq8val == 'O' \
+                    or sq3val == 'O' and sq6val == 'O' and sq9val == 'O'\
+                    or sq1val == 'O' and sq5val == 'O' and sq9val == 'O'\
+                    or sq7val == 'O' and sq5val == 'O' and sq3val == 'O'\
+                    or sq4val == 'O' and sq5val == 'O' and sq6val == 'O'\
+                    or sq7val == 'O' and sq8val == 'O' and sq9val == 'O':
+                ototal += 1
+                sq1val = ''
+                sq2val = ''
+                sq3val = ''
+                sq4val = ''
+                sq5val = ''
+                sq6val = ''
+                sq7val = ''
+                sq8val = ''
+                sq9val = ''
+            ### Check if Tie ###
+            elif sq1val != '' and sq2val != '' and sq3val != '' and sq4val != '' and sq5val != '' and sq6val != '' and sq7val != '' and sq8val != '' and sq9val != '':
+                ttotal += 1
+                sq1val = ''
+                sq2val = ''
+                sq3val = ''
+                sq4val = ''
+                sq5val = ''
+                sq6val = ''
+                sq7val = ''
+                sq8val = ''
+                sq9val = ''
