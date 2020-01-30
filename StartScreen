@@ -1,0 +1,77 @@
+import pygame
+import RPS
+import TTT
+import HT
+import RD
+from thingies import button
+
+pygame.init()
+win = pygame.display.set_mode((500, 500))
+win.fill((255, 255, 255))
+
+playRPS = False
+playTTT = False
+playHT = False
+playRD = False
+
+pygame.display.set_caption('Simple Games')
+run = True
+rpsButton = button((0, 0, 0), 25, 50, 200, 75, 'Play RPS')
+tttButton = button((0, 0, 0), 25, 160, 200, 75, 'Play TTT')
+htButton = button((0, 0, 0), 25, 270, 200, 75, 'Flip Coin')
+rdButton = button((0, 0, 0), 275, 50, 200, 75, 'Roll Dice')
+exitButton = button((255, 0, 0), 350, 400, 100, 50, 'END')
+
+def redrawWindow():
+    win.fill((153, 204, 255))
+    rpsButton.draw(win, (0, 200, 0))
+    tttButton.draw(win, (0, 200, 0))
+    htButton.draw(win, (0, 200, 0))
+    rdButton.draw(win, (0, 200, 0))
+    exitButton.draw(win, (200, 0, 0))
+
+while run:
+    redrawWindow()
+    pygame.display.update()
+
+    for event in pygame.event.get():
+        pos = pygame.mouse.get_pos()
+
+        if event.type == pygame.QUIT:
+            run = False
+            pygame.quit()
+            quit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if rpsButton.isOver(pos):
+                playRPS = True
+            elif tttButton.isOver(pos):
+                playTTT = True
+            elif htButton.isOver(pos):
+                playHT = True
+            elif rdButton.isOver(pos):
+                playRD = True
+            elif exitButton.isOver(pos):
+                run = False
+                pygame.quit()
+                quit()
+
+        if event.type == pygame.MOUSEMOTION:
+            if tttButton.isOver(pos):
+                tttButton.color = (255, 0, 0)
+            else:
+                tttButton.color = (0, 255, 0)
+    if playRPS:
+        RPS.playRPS()
+        playRPS = False
+    if playTTT:
+        TTT.playTTT()
+        playTTT = False
+    if playHT:
+        HT.playHT()
+        playHT = False
+    if playRD:
+        RD.playRD()
+        playRD = False
+
+pygame.quit()
