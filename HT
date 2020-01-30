@@ -1,0 +1,84 @@
+import pygame
+import random
+from thingies import button
+
+pygame.init()
+win = pygame.display.set_mode((500, 500))
+win.fill((255, 255, 255))
+
+def playHT():
+    again = True
+    againagain = True
+    hmf = True
+    htotal = 0
+    ttotal = 0
+    etotal = 0
+    sideslist = ('heads', 'tails')
+    count = 0
+    flip = 0
+
+    while again:
+        oneflip = button((0, 0, 0), 25, 180, 200, 50, "FLIP ONCE")
+        hundflip = button((0, 0, 0), 275, 180, 200, 50, "FLIP * 100")
+        thouflip = button((0, 0, 0), 125, 240, 250, 50, "FLIP * 1000")
+        backButton = button((0, 0, 0), 350, 400, 100, 50, 'END' )
+        headsbutton = button((0, 0, 0), 25, 325, 250, 50, f'HEADS: {str(htotal)}')
+        tailsbutton = button((0, 0, 0), 25, 375, 250, 50, f'TAILS: {str(ttotal)}')
+        edgebutton = button((0, 0, 0), 25, 425, 250, 50, f'EDGE: {str(etotal)}')
+        coinbutton = button((0, 0, 0), 25, 25, 25, 25)
+
+        def redrawWindow():
+            win.fill((153, 204, 255))
+            oneflip.draw(win, (0, 200, 0))
+            hundflip.draw(win, (0, 200, 0))
+            thouflip.draw(win, (0, 200, 0))
+            backButton.draw(win, (200, 0, 0))
+            headsbutton.draw(win, (200, 200, 0))
+            tailsbutton.draw(win, (200, 200, 0))
+            edgebutton.draw(win, (200, 200, 0))
+            coinbutton.drawcirc(win, (255, 255, 255))
+
+        redrawWindow()
+        pygame.display.update()
+
+        ### While How Many Flips, get input form user for how many flips to preform ###
+        while hmf:
+            for event in pygame.event.get():
+                pos = pygame.mouse.get_pos()
+
+                if event.type == pygame.QUIT:
+                    again = False
+                    pygame.quit()
+                    quit()
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if oneflip.isOver(pos):
+                        flip = 1
+                        hmf = False
+                        flipping = True
+                    elif hundflip.isOver(pos):
+                        flip = 100
+                        hmf = False
+                        flipping = True
+                    elif thouflip.isOver(pos):
+                        flip = 1000
+                        hmf = False
+                        flipping = True
+                    elif backButton.isOver(pos):
+                        again = False
+                        hmf = False
+        if flipping:
+            count += 1
+            coin = random.choice(sideslist)
+            esenario = random.randint(1, 6000)
+            if esenario == 6000:
+                etotal += 1
+            else:
+                if coin == 'heads':
+                    htotal += 1
+                elif coin == 'tails':
+                    ttotal += 1
+            if count == flip:
+                flipping = False
+                hmf = True
+                count = 0
