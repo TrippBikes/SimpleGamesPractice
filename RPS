@@ -1,0 +1,86 @@
+import pygame
+import random
+from thingies import button
+
+pygame.init()
+win = pygame.display.set_mode((500, 500))
+win.fill((255, 255, 255))
+
+def playRPS():
+    again = True
+    hscore = 0
+    cscore = 0
+    tscore = 0
+    dt1 = 'I have choosen a weapon!'
+    dt2 = 'Now human, pick yours!'
+    hwep = ''
+    cwep = ''
+    while again:
+        weaponlist = ('rock', 'paper', 'scissors')
+        again = True
+        againagain = True
+        distxt1 = button((0, 0, 0), 5, 25, 490, 50, dt1)
+        distxt2 = button((0, 0, 0), 5, 75, 490, 50, dt2)
+        rockButton = button((0, 0, 0), 25, 180, 200, 50, 'ROCK')
+        paperButton = button((0, 0, 0), 275, 180, 200, 50, 'PAPER')
+        scissorsButton = button((0, 0, 0), 125, 240, 250, 50, 'SCISSORS')
+        backButton = button((0, 0, 0), 350, 400, 100, 50, 'END' )
+        hsButton = button((0, 0, 0), 25, 325, 200, 50, f'HUMAN: {str(hscore)}')
+        csButton = button((0, 0, 0), 25, 375, 200, 50, f'COMP: {str(cscore)}')
+        tsButton = button((0, 0, 0), 25, 425, 200, 50, f'TIES: {str(tscore)}')
+
+        def redrawWindow():
+            win.fill((153, 204, 255))
+            rockButton.draw(win, (0, 200, 0))
+            paperButton.draw(win, (0, 200, 0))
+            scissorsButton.draw(win, (0, 200, 0))
+            backButton.draw(win, (200, 0, 0))
+            hsButton.draw(win, (200, 0, 0))
+            csButton.draw(win, (200, 0, 0))
+            tsButton.draw(win, (200, 0, 0))
+            distxt1.draw(win, (255, 255, 255))
+            distxt2.draw(win, (255, 255, 255))
+
+        while againagain:
+            cwep = random.choice(weaponlist)
+            print(f'computer = {str(cwep)}')
+            getwep = True
+            ### run while loop until user selects a weapon from window ###
+            while getwep:
+                redrawWindow()
+                pygame.display.update()
+                for event in pygame.event.get():
+                    pos = pygame.mouse.get_pos()
+
+                    if event.type == pygame.QUIT:
+                        again = False
+                        pygame.quit()
+                        quit()
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if rockButton.isOver(pos):
+                            hwep = 'rock'
+                            getwep = False
+                        elif paperButton.isOver(pos):
+                            hwep = 'paper'
+                            getwep = False
+                        elif scissorsButton.isOver(pos):
+                            hwep = 'scissors'
+                            getwep = False
+                        elif backButton.isOver(pos):
+                            again = False
+                            getwep = False
+                againagain = False
+        print(f'human= {str(hwep)}')
+        if cwep == 'rock' and hwep == 'scissors' or cwep == 'paper' and hwep == 'rock' or cwep == 'scissors' and hwep == 'paper':
+            cscore += 1
+            dt1 = f'I have picked {cwep}!'
+            dt2 = 'One point to me!'
+        elif cwep == 'rock' and hwep == 'paper' or cwep == 'paper' and hwep == 'scissors' or cwep == 'scissors' and hwep == 'rock':
+            hscore += 1
+            dt1 = f'I have picked {cwep}...'
+            dt2 = 'One point to the biped...'
+        else:
+            tscore += 1
+            dt1 = 'it is a draw...'
+            dt2 = f'we have both picked {cwep}'
